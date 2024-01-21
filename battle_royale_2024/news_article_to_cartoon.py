@@ -107,7 +107,9 @@ def create_prompt_including_news_article():
     return prompt + news_article_text.rstrip() + "\n\n===\n\nOutput:"
 
 
-if __name__ == "__main__":
+def run():
+    global HTML
+
     run_id = get_run_id()
 
     print(f"Run {run_id} started")
@@ -132,13 +134,17 @@ if __name__ == "__main__":
     HTML = render_template("cartoon.html.j2", results_with_images)
     Path(results_html_file_path).write_text(HTML)
 
-    webServer = HTTPServer((hostName, serverPort), MyServer)
+    web_server = HTTPServer((hostName, serverPort), MyServer)
     print(f"Server started http://{hostName}:{serverPort}")
 
     try:
-        webServer.serve_forever()
+        web_server.serve_forever()
     except KeyboardInterrupt:
         pass
 
-    webServer.server_close()
+    web_server.server_close()
     print("Server stopped.")
+
+
+if __name__ == "__main__":
+    run()
